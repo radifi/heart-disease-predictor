@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+ 
+{% block title %}
+Heart Disease Risk Assessment
+{% endblock %}
+ 
+{% block body %}
+<div style="text-align:center">
+    <h1>Heart Disease Risk Assessment</h1>
+    <form action="{{ url_for('register') }}" method="post">
+        Name: <input age="age" type="number"/>
+        <br/>
+        Gender:
+        <input name="gender" type="radio" value="female"/> Female
+        <input name="gender" type="radio" value="male"/> Male
+        <br/>
+        Chest Pain Type:
+        <select name="chest_Pain">
+            <option value=""></option>
+            <option value="Typical Angina">Typical Angina</option>
+            <option value="Atypical Angina">Atypical Angina</option>
+            <option value="Non-anginal pain">Non-anginal pain</option>
+            <option value="asymptomatic">asympotmatic</option>
+        </select>
+        <br/>
+        Resting Blood Pressure (mmHg):
+        <input Trestbps="Trestbps" type="number"/>
+        <br/>
+        Cholesterol (mg/dl):
+        <input Chol="Chol" type="number"/>
+        <br/>
+        Fasting blood sugar: 
+        <select name="Fbs">
+            <option value=""></option>
+            <option value="above 120 mg/dl">above 120 mg/ml</option>
+            <option value="at or below 120 mg/dl">at or below 120 mg/dl</option>
+        </select>
+        <br/>
+        Resting ECG Results: 
+        <select name="Restecg">
+            <option value=""></option>
+            <option value="normal">normal</option>
+            <option value="ST-T wave abnormality">ST-T wave abnormality</option>
+            <option value="left ventricular hypertrophy (Estes' criteria)">left ventricular hypertrophy (Estes' criteria)</option>
+        </select>
+        <br/>
+        Maximum Heart Rate:
+        <input Thalach="Thalach" type="number"/>
+        <br/>
+        Exercise induced angina:
+        <input name="Exang" type="radio" value="yes"/> yes
+        <input name="Exang" type="radio" value="no"/> no
+        <br/>
+        Old Peak ST: Depression on ECG induced by exercise relative to rest
+        <input Old Peak ST="Old Peak ST" type="number"/>
+        <br/>
+        Slope of peak exercise segment:
+        <select name="Slope">
+            <option value=""></option>
+            <option value="upsloping">positive</option>
+            <option value="flat">flat</option>
+            <option value="downsloping">negative</option>
+        </select>
+        <br/>
+        # of major vessels colored by fluoroscopy:
+        <input name="Ca" type="radio" value="0"/> 0
+        <input name="Ca" type="radio" value="1"/> 1
+        <input name="Ca" type="radio" value="2"/> 2
+        <input name="Ca" type="radio" value="3"/> 3
+        <br/>
+        Presence of defect:
+        <select name="Thal">
+            <option value=""></option>
+            <option value="normal">normal</option>
+            <option value="fixed">fixed defect</option>
+            <option value="reversible">reversible defect</option>
+        </select>
+        <br/>
+        <input type="submit" value="Register"/>
+    </form>
+</div>
+{% endblock %}
