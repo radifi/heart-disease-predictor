@@ -1,0 +1,92 @@
+
+{% extends "layout.html" %}
+
+{% block title %}
+Heart Disease Risk Assessment
+{% endblock %}
+
+{% block body %}
+<div style="text-align:center">
+    <h1>Heart Disease Risk Assessment</h1>
+    <form action="{{ url_for('add_entry') }}" method="post">
+        Age: <input name="age" type="integer"/>
+        <br/>
+        Gender:
+        <input name="gender" type="radio" value="0"/> Female
+        <input name="gender" type="radio" value="1"/> Male
+        <br/>
+        Chest Pain Type:
+        <select name="Cp" type="text">
+            <option value=""></option>
+            <option value="1">Typical Angina</option>
+            <option value="2">Atypical Angina</option>
+            <option value="3">Non-anginal pain</option>
+            <option value="4">asympotmatic</option>
+        </select>
+        <br/>
+        Resting Blood Pressure (mmHg):
+        <input name="Trestbps" type="number"/>
+        <br/>
+        Cholesterol (mg/dl):
+        <input name="Chol" type="number"/>
+        <br/>
+        Fasting blood sugar: 
+        <select name="Fbs">
+            <option value=""></option>
+            <option value="1">above 120 mg/ml</option>
+            <option value="0">at or below 120 mg/dl</option>
+        </select>
+        <br/>
+        Resting ECG Results: 
+        <select name="Restecg">
+            <option value=""></option>
+            <option value="0">normal</option>
+            <option value="1">ST-T wave abnormality</option>
+            <option value="2">left ventricular hypertrophy (Estes' criteria)</option>
+        </select>
+        <br/>
+        Maximum Heart Rate:
+        <input name="Thalach" type="number"/>
+        <br/>
+        Exercise induced angina:
+        <input name="Exang" type="radio" value="1"/> yes
+        <input name="Exang" type="radio" value="0"/> no
+        <br/>
+        Old Peak ST: Depression on ECG induced by exercise relative to rest
+        <input name="Old_Peak_ST" type="number"/>
+        <br/>
+        Slope of peak exercise segment:
+        <select name="Slope">
+            <option value=""></option>
+            <option value="1">positive</option>
+            <option value="2">flat</option>
+            <option value="3">negative</option>
+        </select>
+        <br/>
+        # of major vessels colored by fluoroscopy:
+        <input name="Ca" type="radio" value="0"/> 0
+        <input name="Ca" type="radio" value="1"/> 1
+        <input name="Ca" type="radio" value="2"/> 2
+        <input name="Ca" type="radio" value="3"/> 3
+        <br/>
+        Presence of defect:
+        <select name="Thal">
+            <option value=""></option>
+            <option value="3">normal</option>
+            <option value="6">fixed defect</option>
+            <option value="7">reversible defect</option>
+        </select>
+        <br/>
+        <input type="submit" value="Share"/>
+    </form>
+</div>
+  <ul class=entries>
+  {% for entry in entries %}
+    <li><h2>{{ entry.age }}</h2>{{ entry.gender }}{{ entry.Cp }}{{ entry.Trestbps }}{{ entry.Chol }}{{ entry.Fbs }}{{ entry.Restecg }}{{ entry.Thalach }}{{ entry.Exang }}{{ entry.Old_Peak_ST }}{{ entry.Slope }}{{ entry.Ca }}{{ entry.Old_Peak_ST }}
+  {% else %}
+    <li><em>Unbelievable.  No entries here so far</em>
+  {% endfor %}
+  </ul>
+{% endblock %}
+
+ 
