@@ -11,7 +11,7 @@ create table entries (
   Restecg integer NOT NULL,
   Thalach integer NOT NULL,
   Exang integer NOT NULL,
-  Old_Peak_ST varchar(255) NOT NULL,
+  Old_Peak_ST numeric(5,2) NOT NULL,
   Slope integer NOT NULL,
   Ca integer NOT NULL,
   Thal integer NOT NULL  

@@ -1,9 +1,15 @@
 
+#!/usr/bin/env python
 # all the imports
 import os
 import sqlite3
+#import sys
+#import shutil
+#import time
+#import traceback
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
+#from django.conf.urls import include
      
 import statsmodels.api as sm
 from sklearn.cross_validation import KFold
@@ -18,6 +24,7 @@ from sklearn import svm
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import LogisticRegression
+from sklearn.externals import joblib
 
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import Lasso
@@ -33,6 +40,7 @@ import seaborn
 import numpy.random as nprnd
 import random
 import json
+import pickle
 
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
 from sklearn.tree import DecisionTreeRegressor
@@ -43,6 +51,15 @@ import graphviz
      
 app = Flask(__name__) # create the application instance :)
 app.config.from_object(__name__) # load config from this file , flaskr.py
+
+training_data = 'data/HeartData_ALL.csv'
+#dependent_variable = include[-1]
+
+# Loading the saved decision tree model pickle
+decision_tree_pkl_filename = 'heart_disease_decision_regressor_tree.pkl'
+decision_tree_model_pkl = open(decision_tree_pkl_filename, 'rb')
+decision_tree_model = pickle.load(decision_tree_model_pkl)
+#print ("Loaded Decision tree model :: ", decision_tree_model)
 
 # Load default config and override config from an environment variable
 app.config.update(dict(
@@ -101,10 +118,18 @@ def add_entry():
     db = get_db()
     db.execute('insert into entries (age, gender, Cp, Trestbps, Chol, Fbs, Restecg, Thalach, Exang, Old_Peak_ST, Slope, Ca, Thal) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
                  [request.form['age'], request.form['gender'], request.form['Cp'], request.form['Trestbps'], request.form['Chol'], request.form['Fbs'], request.form['Restecg'], request.form['Thalach'], request.form['Exang'], request.form['Old_Peak_ST'], request.form['Slope'], request.form['Ca'], request.form['Thal']])
-    db.commit()
-    flash('New entry was successfully posted')
-    return redirect(url_for('show_entries'))
-    
+    user_data = db.commit()
+    query = [request.form['age'], request.form['gender'], request.form['Cp'], request.form['Trestbps'], request.form['Chol'], request.form['Fbs'], request.form['Restecg'], request.form['Thalach'], request.form['Exang'], request.form['Old_Peak_ST'], request.form['Slope'], request.form['Ca'], request.form['Thal']]
+    prediction = decision_tree_model.predict(query)
+    query_test = ''.join(str(e) for e in query)
+    predict2 = np.array_str(prediction)
+    return '{}'.format(predict2)
+    #return '{} {}'.format(query_test, predict2)
+    #db.commit()
+    #flash('New entry was successfully posted')
+    #return redirect(url_for('show_entries'))
+
+	
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
@@ -119,6 +144,13 @@ def login():
             return redirect(url_for('show_entries'))
     return render_template('login.html', error=error)
     
+#@app.route('/predict', methods=['POST'])
+#def predict():	
+#	query = [65,1,3.4,249,230,1,2,240,1,2.45,2,2.45,3]
+#	prediction = decision_tree_model.predict(query)
+#	predict2 = np.array_str(prediction)
+#	return predict2
+
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
