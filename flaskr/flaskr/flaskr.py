@@ -64,6 +64,7 @@ decision_tree_model = pickle.load(decision_tree_model_pkl)
 # Load default config and override config from an environment variable
 app.config.update(dict(
     DATABASE=os.path.join(app.root_path, 'flaskr.db'),
+    DATABASE2=os.path.join(app.root_path, 'patient.db'),
     SECRET_KEY='development key',
     USERNAME='admin',
     PASSWORD='default'
@@ -102,12 +103,48 @@ def close_db(error):
     if hasattr(g, 'sqlite_db'):
         g.sqlite_db.close()
         
+def connect_db2():
+    """Connects to the specific database."""
+    rv2 = sqlite3.connect(app.config['DATABASE2'])
+    rv2.row_factory = sqlite3.Row
+    return rv2
+    
+def init_db2():
+    db2 = get_db2()
+    with app.open_resource('schema2.sql', mode='r') as f2:
+        db2.cursor().executescript(f2.read())
+    db2.commit()
+
+@app.cli.command('initdb2')
+def initdb2_command():
+    """Initializes the database2."""
+    init_db2()
+    print('Initialized the database2.')
+    
+def get_db2():
+    """Opens a new database connection if there is none yet for the
+    current application context.
+    """
+    if not hasattr(g, 'sqlite_db2'):
+        g.sqlite_db2 = connect_db2()
+    return g.sqlite_db2
+    
+@app.teardown_appcontext
+def close_db2(error):
+    """Closes the database again at the end of the request."""
+    if hasattr(g, 'sqlite_db2'):
+        g.sqlite_db2.close()
+        
 @app.route('/')
 def show_entries():
     db = get_db()
     cur = db.execute('select age, gender, Cp, Trestbps, Chol, Fbs, Restecg, Thalach, Exang, Old_Peak_ST, Slope, Ca, Thal from entries order by id desc')
     entries = cur.fetchall()
-    return render_template('show_entries.html', entries=entries)
+    db2 = get_db2()
+    #raise Exception(db2.execute('select * from patient'))
+    cur2 = db2.execute('select SEX, TOTCHOL, AGE, SYSBP, DIABP, CURSMOKE, CIGPDAY, BMI, DIABETES, EDUC, HEARTRTE, GLUCOSE, BPMEDS from patient order by id2 desc')
+    patient = cur2.fetchall()
+    return render_template('show_entries.html', entries = entries, patient=patient)
     
 @app.route('/add', methods=['POST'])
 def add_entry():
@@ -129,7 +166,29 @@ def add_entry():
     #flash('New entry was successfully posted')
     #return redirect(url_for('show_entries'))
 
-	
+@app.route('/add2', methods=['POST'])
+def add_entry2():
+    if request.form['SEX'] == "":
+        return render_template("failure.html")
+    #if not session.get('logged_in'):
+        #abort(401)
+    db2 = get_db2()
+    db2.execute('insert into patient (SEX, TOTCHOL, AGE, SYSBP, DIABP, CURSMOKE, CIGPDAY, BMI, DIABETES, EDUC, HEARTRTE, GLUCOSE, BPMEDS) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                 [request.form['SEX'], request.form['TOTCHOL'], request.form['AGE'], request.form['SYSBP'], request.form['DIABP'], request.form['CURSMOKE'], request.form['CIGPDAY'], request.form['BMI'], request.form['DIABETES'], request.form['EDUC'], request.form['HEARTRTE'], request.form['GLUCOSE'], request.form['BPMEDS']])
+    user_data2 = db2.commit()
+    #print ("hello2")
+    query2 = [request.form['SEX'], request.form['TOTCHOL'], request.form['AGE'], request.form['SYSBP'], request.form['DIABP'], request.form['CURSMOKE'], request.form['CIGPDAY'], request.form['BMI'], request.form['DIABETES'], request.form['EDUC'], request.form['HEARTRTE'], request.form['GLUCOSE'], request.form['BPMEDS']]
+    query_test2 = ''.join(str(e) for e in query2)
+    return '{}'.format(query_test2)
+    #print ("hello")
+    #db2.execute('insert into patient (SEX, TOTCHOL, AGE, SYSBP, DIABP, CURSMOKE, CIGPDAY, BMI, DIABETES, BPMEDS, HEARTRTE, GLUCOSE, educ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    #             [request.form['SEX'], request.form['TOTCHOL'], request.form['AGE'], request.form['SYSBP'], request.form['DIABP'], request.form['CURBSMOKE'], request.form['CIGPDAY'], request.form['BMI'], request.form['DIABETES'], request.form['BPMEDS'], request.form['HEARTRTE'], request.form['GLUCOSE'], request.form['educ']])
+    #user_data2 = db2.commit()
+    #print ("hello2")
+    #query2 = [request.form['SEX'], request.form['TOTCHOL'], request.form['AGE'], request.form['SYSBP'], request.form['DIABP'], request.form['CURBSMOKE'], request.form['CIGPDAY'], request.form['BMI'], request.form['DIABETES'], request.form['BPMEDS'], request.form['HEARTRTE'], request.form['GLUCOSE'], request.form['educ']]
+    #query_test2 = ''.join(str(e) for e in query2)
+    #return '{}'.format(query_test2)
+    
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None

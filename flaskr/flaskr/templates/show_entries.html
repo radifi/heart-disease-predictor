@@ -6,8 +6,19 @@ Heart Disease Risk Assessment
 {% endblock %}
 
 {% block body %}
-<div style="text-align:center">
+
+<div id='Content' style="text-align:center">
     <h1>Heart Disease Risk Assessment</h1>
+    <a href="javascript:;" onmousedown="toggleDiv('mydiv');">
+    	<label class="switch">
+		<input type="checkbox" checked>
+		<div id='changeText' class="slider round">
+		</div>
+		</label>
+    </a>
+
+
+	<div id="mydivon" style="display:block">
     <form action="{{ url_for('add_entry') }}" method="post">
         Age: <input name="age" type="integer"/>
         <br/>
@@ -79,6 +90,77 @@ Heart Disease Risk Assessment
         <br/>
         <input type="submit" value="Share"/>
     </form>
+    </div>
+    <div id="mydivoff" style="display:none">
+    <form action="{{ url_for('add_entry2') }}" method="post">
+        Age: <input name="AGE" type="number"/>
+        <br/>
+        Gender:
+        <input name="SEX" type="radio" value="2"/> Female
+        <input name="SEX" type="radio" value="1"/> Male
+        <br/>
+        Total Cholesterol: <input name="TOTCHOL" type="number"/>
+        <br/>
+        Systolic Blood Pressure: <input name="SYSBP" type="number" step="0.1"/>
+        <br/>
+        Diastolic Blood Pressure: <input name="DIABP" type="number" step="0.1"/>
+        <br/>
+        Cigarette smoking:
+        <input name="CURSMOKE" type="radio" value="0"/> Not currently
+        <input name="CURSMOKE" type="radio" value="1"/> Current smoker
+        <br/>
+        Cigarettes per day: <input name="CIGPDAY" type="integer"/>
+        <br/>
+        Attained Education:
+        <select name="EDUC">
+        	<option value="1"/> 0-11 years</option>
+        	<option value="2"/> High School Diploma, GED</option>
+        	<option value="3"/> Some College, Vocational</option>
+        	<option value="4"/> College (BS,BA) degree or more</option>
+        </select>
+        <br/>
+        Body mass index
+        <input name="BMI" type="number" step="0.01"/>
+        <br/>
+		Diabetes:
+        <input name="DIABETES" type="radio" value="0"/> No
+        <input name="DIABETES" type="radio" value="1"/> Yes
+        <br/>
+        Use of Anti-hypertensive (blood pressure) medication:
+        <input name="BPMEDS" type="radio" value="0"/> Not currently
+        <input name="BPMEDS" type="radio" value="1"/> Yes
+        <br/>
+        Heart Rate (beats/min):
+        <input name="HEARTRTE" type="number"/>
+        <br/>
+        Average glucose levels (mg/dL):
+        <input name="GLUCOSE" type="number"/>
+        <br/>
+        <input type="submit" value="Calculate Risk Factor"/>
+    </form>
+    </div>
+
+<script language="javascript">
+  function toggleDiv(divid)
+  {
+
+    varon = divid + 'on';
+    varoff = divid + 'off';
+
+    if(document.getElementById(varon).style.display == 'block')
+    {
+    document.getElementById(varon).style.display = 'none';
+    document.getElementById(varoff).style.display = 'block';
+    }
+
+    else
+    {  
+    document.getElementById(varoff).style.display = 'none';
+    document.getElementById(varon).style.display = 'block'
+    }
+}
+</script>
+
 </div>
   <ul class=entries>
   {% for entry in entries %}

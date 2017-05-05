@@ -1,4 +1,5 @@
 MANIFEST.in
+setup.cfg
 flaskr/__init__.py
 flaskr/flaskr.py
 flaskr/schema.sql
@@ -8,6 +9,9 @@ flaskr.egg-info/dependency_links.txt
 flaskr.egg-info/requires.txt
 flaskr.egg-info/top_level.txt
 flaskr/static/style.css
+flaskr/templates/failure.html
+flaskr/templates/index.html
 flaskr/templates/layout.html
 flaskr/templates/login.html
 flaskr/templates/show_entries.html
+flaskr/templates/success.html
