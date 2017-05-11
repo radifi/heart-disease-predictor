@@ -41,14 +41,14 @@ Heart Disease Risk Assessment
         Cholesterol (mg/dl):
         <input name="Chol" type="number"/>
         <br/>
-        Fasting blood sugar: 
+        Fasting blood sugar:
         <select name="Fbs">
             <option value=""></option>
             <option value="1">above 120 mg/ml</option>
             <option value="0">at or below 120 mg/dl</option>
         </select>
         <br/>
-        Resting ECG Results: 
+        Resting ECG Results:
         <select name="Restecg">
             <option value=""></option>
             <option value="0">normal</option>
@@ -88,8 +88,11 @@ Heart Disease Risk Assessment
             <option value="7">reversible defect</option>
         </select>
         <br/>
-        <input type="submit" value="Share"/>
-    </form>
+        <input type="submit" value="Calculate Score"/>
+    </form><br>
+    <br>
+    <em> *Please be advised that you will receive optimal results by accurately filling out all information.
+    If possible, fill this form out with a healthcare professional.*</em>
     </div>
     <div id="mydivoff" style="display:none">
     <form action="{{ url_for('add_entry2') }}" method="post">
@@ -137,8 +140,12 @@ Heart Disease Risk Assessment
         <input name="GLUCOSE" type="number"/>
         <br/>
         <input type="submit" value="Calculate Risk Factor"/>
-    </form>
+    </form><br>
+    <br>
+    <em> *Please be advised that you will receive optimal results by accurately filling out all information.
+    For areas you are unsure of, provide your best estimate.* </em>
     </div>
+
 
 <script language="javascript">
   function toggleDiv(divid)
@@ -154,7 +161,7 @@ Heart Disease Risk Assessment
     }
 
     else
-    {  
+    {
     document.getElementById(varoff).style.display = 'none';
     document.getElementById(varon).style.display = 'block'
     }
@@ -166,10 +173,13 @@ Heart Disease Risk Assessment
   {% for entry in entries %}
   <h1>{{ prediction }}</h1>
     <!--<li><h2>{{ entry.age }}</h2>{{ entry.gender }}{{ entry.Cp }}{{ entry.Trestbps }}{{ entry.Chol }}{{ entry.Fbs }}{{ entry.Restecg }}{{ entry.Thalach }}{{ entry.Exang }}{{ entry.Old_Peak_ST }}{{ entry.Slope }}{{ entry.Ca }}{{ entry.Old_Peak_ST }}-->
-  {% else %}
-    <li><em>Unbelievable.  No entries here so far</em>
+  {% else %}<br>
+    <br><br>
+    <br>
+    <em> Medical Disclaimer: The contents of cs3514.pythonanywhere.com are for informational purposes only.
+    Content is not intended to be a substitute for professional medical advice, diagnosis, or treatment.
+    Always seek professional advice with questions regarding a medical condition.
+    Never disregard professional medical advice because of information provided on this site. </em>
   {% endfor %}
   </ul>
 {% endblock %}
-
- 
