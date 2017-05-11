@@ -7,8 +7,8 @@
   <meta name="Generator" content="Cocoa HTML Writer">
   <meta name="CocoaVersion" content="1348.17">
   <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Consolas; color: #222222; -webkit-text-stroke: #222222; background-color: #ffffff}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Consolas; color: #222222; -webkit-text-stroke: #222222; background-color: #ffffff; min-height: 16.0px}
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px 'Century Gothic'; color: #000; -webkit-text-stroke: #222222; background-color: #fff}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px 'Century Gothic'; color: #000; -webkit-text-stroke: #222222; background-color: #fff; min-height: 16.0px}
     span.s1 {font-kerning: none}
   </style>
 </head>
@@ -21,6 +21,16 @@
 <p class="p2"><span class="s1"></span><br></p>
 <p class="p1"><span class="s1">{% block body %}</span></p>
 <p class="p1"><span class="s1">You must provide basic information for a reliable assessment.</span></p>
+</br></br>
+<button onclick="goBack()">Go Back</button>
+
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>
+
 <p class="p1"><span class="s1">{% endblock %}</span></p>
+
 </body>
 </html>
