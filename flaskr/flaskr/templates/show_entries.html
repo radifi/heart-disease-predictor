@@ -8,7 +8,11 @@ Heart Disease Risk Assessment
 {% block body %}
 
 <div id='Content' style="text-align:center">
-    <h1>Heart Disease Risk Assessment</h1>
+    <div class="header">
+        <h1>Heart Disease Risk Assessment</h1>
+    </div>
+    <br/><br/>
+
     <a href="javascript:;" onmousedown="toggleDiv('mydiv');">
     	<label class="switch">
 		<input type="checkbox" checked>
@@ -16,16 +20,19 @@ Heart Disease Risk Assessment
 		</div>
 		</label>
     </a>
-
+    <br/>
 
 	<div id="mydivon" style="display:block">
+
     <form action="{{ url_for('add_entry') }}" method="post">
+        <em>DOCTOR</em>
+	    <br/><br/>
         Age: <input name="age" type="integer"/>
-        <br/>
+        <br/><br/>
         Gender:
         <input name="gender" type="radio" value="0"/> Female
         <input name="gender" type="radio" value="1"/> Male
-        <br/>
+        <br/><br/>
         Chest Pain Type:
         <select name="Cp" type="text">
             <option value=""></option>
@@ -34,20 +41,20 @@ Heart Disease Risk Assessment
             <option value="3">Non-anginal pain</option>
             <option value="4">asympotmatic</option>
         </select>
-        <br/>
+        <br/><br/>
         Resting Blood Pressure (mmHg):
         <input name="Trestbps" type="number"/>
-        <br/>
+        <br/><br/>
         Cholesterol (mg/dl):
         <input name="Chol" type="number"/>
-        <br/>
+        <br/><br/>
         Fasting blood sugar:
         <select name="Fbs">
             <option value=""></option>
             <option value="1">above 120 mg/ml</option>
             <option value="0">at or below 120 mg/dl</option>
         </select>
-        <br/>
+        <br/><br/>
         Resting ECG Results:
         <select name="Restecg">
             <option value=""></option>
@@ -55,17 +62,17 @@ Heart Disease Risk Assessment
             <option value="1">ST-T wave abnormality</option>
             <option value="2">left ventricular hypertrophy (Estes' criteria)</option>
         </select>
-        <br/>
+        <br/><br/>
         Maximum Heart Rate:
         <input name="Thalach" type="number"/>
-        <br/>
+        <br/><br/>
         Exercise induced angina:
         <input name="Exang" type="radio" value="1"/> yes
         <input name="Exang" type="radio" value="0"/> no
-        <br/>
+        <br/><br/>
         Old Peak ST: Depression on ECG induced by exercise relative to rest
         <input name="Old_Peak_ST" type="number" step="0.01"/>
-        <br/>
+        <br/><br/>
         Slope of peak exercise segment:
         <select name="Slope">
             <option value=""></option>
@@ -73,13 +80,13 @@ Heart Disease Risk Assessment
             <option value="2">flat</option>
             <option value="3">negative</option>
         </select>
-        <br/>
+        <br/><br/>
         # of major vessels colored by fluoroscopy:
         <input name="Ca" type="radio" value="0"/> 0
         <input name="Ca" type="radio" value="1"/> 1
         <input name="Ca" type="radio" value="2"/> 2
         <input name="Ca" type="radio" value="3"/> 3
-        <br/>
+        <br/><br/>
         Presence of defect:
         <select name="Thal">
             <option value=""></option>
@@ -87,33 +94,32 @@ Heart Disease Risk Assessment
             <option value="6">fixed defect</option>
             <option value="7">reversible defect</option>
         </select>
-        <br/>
+        <br/><br/>
         <input type="submit" value="Calculate Score"/>
-    </form><br>
-    <br>
-    <em> *Please be advised that you will receive optimal results by accurately filling out all information.
-    If possible, fill this form out with a healthcare professional.*</em>
+    </form>
     </div>
     <div id="mydivoff" style="display:none">
     <form action="{{ url_for('add_entry2') }}" method="post">
+         <em>PATIENT</em>
+	    <br/><br/>
         Age: <input name="AGE" type="number"/>
-        <br/>
+        <br/><br/>
         Gender:
         <input name="SEX" type="radio" value="2"/> Female
         <input name="SEX" type="radio" value="1"/> Male
-        <br/>
+        <br/><br/>
         Total Cholesterol: <input name="TOTCHOL" type="number"/>
-        <br/>
+        <br/><br/>
         Systolic Blood Pressure: <input name="SYSBP" type="number" step="0.1"/>
-        <br/>
+        <br/><br/>
         Diastolic Blood Pressure: <input name="DIABP" type="number" step="0.1"/>
-        <br/>
+        <br/><br/>
         Cigarette smoking:
         <input name="CURSMOKE" type="radio" value="0"/> Not currently
         <input name="CURSMOKE" type="radio" value="1"/> Current smoker
-        <br/>
+        <br/><br/>
         Cigarettes per day: <input name="CIGPDAY" type="integer"/>
-        <br/>
+        <br/><br/>
         Attained Education:
         <select name="EDUC">
         	<option value="1"/> 0-11 years</option>
@@ -121,32 +127,36 @@ Heart Disease Risk Assessment
         	<option value="3"/> Some College, Vocational</option>
         	<option value="4"/> College (BS,BA) degree or more</option>
         </select>
-        <br/>
+        <br/><br/>
         Body mass index
         <input name="BMI" type="number" step="0.01"/>
-        <br/>
+        <br/><br/>
 		Diabetes:
         <input name="DIABETES" type="radio" value="0"/> No
         <input name="DIABETES" type="radio" value="1"/> Yes
-        <br/>
+        <br/><br/>
         Use of Anti-hypertensive (blood pressure) medication:
         <input name="BPMEDS" type="radio" value="0"/> Not currently
         <input name="BPMEDS" type="radio" value="1"/> Yes
-        <br/>
+        <br/><br/>
         Heart Rate (beats/min):
         <input name="HEARTRTE" type="number"/>
-        <br/>
+        <br/><br/>
         Average glucose levels (mg/dL):
         <input name="GLUCOSE" type="number"/>
-        <br/>
+        <br/><br/>
         <input type="submit" value="Calculate Risk Factor"/>
-    </form><br>
-    <br>
-    <em> *Please be advised that you will receive optimal results by accurately filling out all information.
-    For areas you are unsure of, provide your best estimate.* </em>
+    </form>
     </div>
-
-
+    <br/><br/>
+    <div class="comment">
+     *Please be advised that you will receive optimal results by accurately filling out all information. If possible, fill this form out with a healthcare professional.*
+    </br></br>
+        <h2></h2>
+        <img src="../static/newyorker-cartoon.jpg" alt="Heart Care" >
+    <br/><br/>
+    Medical Disclaimer: The contents of cs3514.pythonanywhere.com are for informational purposes only. Content is not intended to be a substitute for professional medical advice, diagnosis, or treatment. Always seek professional advice with questions regarding a medical condition. Never disregard professional medical advice because of information provided on this site.
+        </div>
 <script language="javascript">
   function toggleDiv(divid)
   {
@@ -173,13 +183,8 @@ Heart Disease Risk Assessment
   {% for entry in entries %}
   <h1>{{ prediction }}</h1>
     <!--<li><h2>{{ entry.age }}</h2>{{ entry.gender }}{{ entry.Cp }}{{ entry.Trestbps }}{{ entry.Chol }}{{ entry.Fbs }}{{ entry.Restecg }}{{ entry.Thalach }}{{ entry.Exang }}{{ entry.Old_Peak_ST }}{{ entry.Slope }}{{ entry.Ca }}{{ entry.Old_Peak_ST }}-->
-  {% else %}<br>
-    <br><br>
-    <br>
-    <em> Medical Disclaimer: The contents of cs3514.pythonanywhere.com are for informational purposes only.
-    Content is not intended to be a substitute for professional medical advice, diagnosis, or treatment.
-    Always seek professional advice with questions regarding a medical condition.
-    Never disregard professional medical advice because of information provided on this site. </em>
+  {% else %}
+    <em></em>
   {% endfor %}
   </ul>
 {% endblock %}
